@@ -34,20 +34,8 @@ FILES:${PN} += "${sysconfdir}/*"
 
 
 
-# TODO: customize these as necessary for any libraries you need for your application
-# (and remove comment)
-#TARGET_LDFLAGS += "-pthread -lrt"
 
-do_configure () {
-	:
-}
-
-do_compile () {
-	unset LDFLAGS
-	oe_runmake LD="${KERNEL_LD}"
-}
-
-do_install () {
+do_install:append() {
 	# TODO: Install your binaries/scripts here.
 	# Be sure to install the target directory with install -d first
 	# Yocto variables ${D} and ${S} are useful here, which you can read about at 
