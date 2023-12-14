@@ -1,0 +1,46 @@
+From a5543d7b50a0679e36413f79b19f116ab71ec36c Mon Sep 17 00:00:00 2001
+From: Daniel Mendez <silex93@gmail.com>
+Date: Wed, 13 Dec 2023 17:16:09 -0700
+Subject: [PATCH] Modified for bitbake
+
+---
+ setup.cfg | 2 +-
+ setup.py  | 6 ++----
+ 2 files changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/setup.cfg b/setup.cfg
+index dcb69ca..9e4160d 100644
+--- a/setup.cfg
++++ b/setup.cfg
+@@ -1,6 +1,6 @@
+ [build_ext]
+ define = PSYCOPG_DEBUG
+-pg_config = 
++pg_config=/usr/bin/pg_config
+ have_ssl = 0
+ static_libpq = 0
+ libraries = 
+diff --git a/setup.py b/setup.py
+index 433d4fc..f7f36cc 100644
+--- a/setup.py
++++ b/setup.py
+@@ -79,6 +79,7 @@ class PostgresConfig:
+     def __init__(self, build_ext):
+         self.build_ext = build_ext
+         self.pg_config_exe = self.build_ext.pg_config
++        print(self.pg_config_exe )
+         if not self.pg_config_exe:
+             self.pg_config_exe = self.autodetect_pg_config_path()
+         if self.pg_config_exe is None:
+@@ -367,10 +368,7 @@ For further information please check the 'doc/src/install.rst' file (also at
+             self.libraries.append("pq")
+ 
+         try:
+-            self.library_dirs.append(pg_config_helper.query("libdir"))
+-            self.include_dirs.append(pg_config_helper.query("includedir"))
+-            self.include_dirs.append(pg_config_helper.query("includedir-server"))
+-
++        
+             # if present, add includedirs from cppflags, libdirs from ldflags
+             tokens = pg_config_helper.query("ldflags", empty_ok=True).split()
+             for token in tokens:
